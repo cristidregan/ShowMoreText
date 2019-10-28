@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         //textView.setShowingChar(30);
 
         textView.addShowMoreText("Continue");
-        textView.addShowLessText("Less");
 
 
     }

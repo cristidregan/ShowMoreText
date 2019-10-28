@@ -2,8 +2,10 @@ package com.skyhope.showmoretextview;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -57,7 +59,10 @@ public class ShowMoreTextView extends TextView {
 
     public ShowMoreTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        showLess = context.getString(R.string.read_less);
+        showMore = context.getString(R.string.read_more);
+        showMoreTextColor = Color.parseColor("#80000000");
+        showLessTextColor = Color.parseColor("#80000000");
     }
 
     @Override
@@ -168,14 +173,15 @@ public class ShowMoreTextView extends TextView {
         spannableString.setSpan(new ForegroundColorSpan(showMoreTextColor),
                 getText().length() - (dotdot.length() + showMore.length()),
                 getText().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), getText().length() - (dotdot.length() + showMore.length()),
+                getText().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         setMovementMethod(LinkMovementMethod.getInstance());
         setText(spannableString, TextView.BufferType.SPANNABLE);
     }
 
     private void showLessButton() {
-
-        String text = getText() + dotdot + showLess;
+        String text = getText() + showLess;
         SpannableString spannableString = new SpannableString(text);
 
         spannableString.setSpan(new ClickableSpan() {
@@ -195,11 +201,13 @@ public class ShowMoreTextView extends TextView {
 
                                     }
                                 },
-                text.length() - (dotdot.length() + showLess.length()),
+                text.length() - showLess.length(),
                 text.length(), 0);
 
         spannableString.setSpan(new ForegroundColorSpan(showLessTextColor),
-                text.length() - (dotdot.length() + showLess.length()),
+                text.length() - showLess.length(),
+                text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), text.length() - showLess.length(),
                 text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         setMovementMethod(LinkMovementMethod.getInstance());
